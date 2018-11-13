@@ -6,28 +6,33 @@ import seaborn as sns
 from scipy.stats import pearsonr
 
 
-def import_data(dataset):
+def import_data():
 
-    dir = 'datasets/'+str(dataset)+'/'
-    XYspkT = np.loadtxt(dir+'XYspkT.csv',delimiter=',')+40
-    spkT = np.loadtxt(dir + 'spkT.csv', delimiter=',')
-    phase = np.loadtxt(dir + 'Phase.csv', delimiter=',')
-    scaled_phase = phase - 3.14
-    #raw_map = np.loadtxt(dir + 'MeanPhaseMap.csv', delimiter=',')
-    #MeanPhaseMap = np.flip(raw_map, axis=0)
-    #MeanPhaseMap[0] = 'NaN'
-    #MeanPhaseMap[:, -1] = 'NaN'
-    #arena_size = MeanPhaseMap.shape
-    #phase_df = pd.DataFrame(data=MeanPhaseMap, columns=np.arange(arena_size[1]))
-    #padded_phase_map = np.pad(MeanPhaseMap,pad_width=2,mode='constant',constant_values=np.nan)
-    #padded_phase_df = pd.DataFrame(data=padded_phase_map, columns=np.arange(arena_size[1]+4))
+    df_dict = {}
+    for i in range(8):
+        dir = 'datasets/'+str(i+1)+'/'
+        XYspkT = np.loadtxt(dir+'XYspkT.csv',delimiter=',')+40
+        XYspkT[:, 1] -= XYspkT[:, 1].min()
+        XYspkT[:, 0] -= XYspkT[:, 0].min()
+        spkT = np.loadtxt(dir + 'spkT.csv', delimiter=',')
+        phase = np.loadtxt(dir + 'Phase.csv', delimiter=',')
+        scaled_phase = phase - 3.14
+        #raw_map = np.loadtxt(dir + 'MeanPhaseMap.csv', delimiter=',')
+        #MeanPhaseMap = np.flip(raw_map, axis=0)
+        #MeanPhaseMap[0] = 'NaN'
+        #MeanPhaseMap[:, -1] = 'NaN'
+        #arena_size = MeanPhaseMap.shape
+        #phase_df = pd.DataFrame(data=MeanPhaseMap, columns=np.arange(arena_size[1]))
+        #padded_phase_map = np.pad(MeanPhaseMap,pad_width=2,mode='constant',constant_values=np.nan)
+        #padded_phase_df = pd.DataFrame(data=padded_phase_map, columns=np.arange(arena_size[1]+4))
 
-    all = np.column_stack((spkT,XYspkT,scaled_phase,phase))
-    df = pd.DataFrame(data=all,columns=['Time','X','Y','Phase','SPhase'])
-    df['Color'] = df.apply(lambda row: 'hsl(' + str(row.SPhase/(all[:,4].max()) * 360)
-                                       + ' ,75%, 50%)', axis=1)
-    df['Name'] = df.apply(lambda row: 'Phase: '+ str(row.Phase),axis=1)
-    return df
+        all = np.column_stack((spkT,XYspkT,scaled_phase,phase))
+        df_dict[i+1] = pd.DataFrame(data=all,columns=['Time','X','Y','Phase','SPhase'])
+        df_dict[i + 1]['Color'] = df_dict[i+1].apply(lambda row: 'hsl(' + str(row.SPhase/(all[:,4].max()) * 360)
+                                           + ' ,50%, 50%)', axis=1)
+        df_dict[i + 1]['Name'] = df_dict[i+1].apply(lambda row: 'Phase: '+ str(row.Phase),axis=1)
+
+    return df_dict
 
 
 
