@@ -79,6 +79,11 @@ def scatter_plot_3d(
             xaxis=axis_template_3d(xlabel),
             yaxis=axis_template_3d(ylabel),
             zaxis=axis_template_3d(zlabel),
+            camera=dict(
+                up=dict(x=0, y=0, z=1),
+                center=dict(x=0, y=0, z=0),
+                eye=dict(x=0.08, y=2.2, z=0.08)
+            )
         )
     )
 
