@@ -24,10 +24,10 @@ BACKGROUND = 'rgb(252, 252, 252)'
 
 
 def scatter_plot_3d(
-        x=df[1]['X'],
-        y=df[1]['Y'],
-        z=df[1]['Phase'],
-        color=df[1]['Color'],
+        x=df[0]['X'],
+        y=df[0]['Y'],
+        z=df[0]['Phase'],
+        color=df[0]['Color'],
         xlabel='X',
         ylabel='Y',
         zlabel='Phase',
@@ -67,7 +67,7 @@ def scatter_plot_3d(
             opacity=0.7,
             color=color,
         ),
-        text=df[1]['Name'],
+        text=df[0]['Name'],
         type=plot_type,
     )]
 
