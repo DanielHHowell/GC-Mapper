@@ -22,9 +22,9 @@ def import_data():
         #padded_phase_df = pd.DataFrame(data=padded_phase_map, columns=np.arange(arena_size[1]+4))
 
         all = np.column_stack((spkT,XYspkT,scaled_phase,phase))
-        df_dict[i+1] = pd.DataFrame(data=all,columns=['Time','X','Y','Phase','SPhase'])
-        df_dict[i + 1]['Color'] = df_dict[i+1].apply(lambda row: 'hsl(' + str(row.SPhase/(all[:,4].max()) * 360)
+        df_dict[i] = pd.DataFrame(data=all,columns=['Time','X','Y','Phase','SPhase'])
+        df_dict[i]['Color'] = df_dict[i+1].apply(lambda row: 'hsl(' + str(row.SPhase/(all[:,4].max()) * 360)
                                            + ' ,50%, 50%)', axis=1)
-        df_dict[i + 1]['Name'] = df_dict[i+1].apply(lambda row: 'Phase: '+ str(row.Phase),axis=1)
+        df_dict[i]['Name'] = df_dict[i+1].apply(lambda row: 'Phase: '+ str(row.Phase),axis=1)
 
     return df_dict
